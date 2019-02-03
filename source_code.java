@@ -1,6 +1,6 @@
 //Program made by YewTM for Goonstation servers.
 //Released under the CC BY-NC 3.0 US license
-//Attribution-NonCommercial 3.0 United States 
+//Attribution-NonCommercial 3.0 United States
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -32,6 +32,8 @@ public class TelesciCalculator extends JPanel {
     private JLabel targetYLabel;
     private JTextField targetXInput;
     private JTextField targetYInput;
+    private JLabel coordinateLabel;
+    private JTextField coordinateNameInput;
     private JToggleButton calculateButton;
     private JToggleButton mathButton;
     private JToggleButton clearButton;
@@ -43,7 +45,7 @@ public class TelesciCalculator extends JPanel {
         "No found input(s)!",
         "Uh oh! Ummmmm...."
     };
-    private String topString = "X, Y";
+    private String topString = "Name: X, Y";
     public TelesciCalculator() {
         //construct preComponents
         coordinateListModel.addElement(topString);
@@ -71,6 +73,8 @@ public class TelesciCalculator extends JPanel {
         targetYLabel = new JLabel("Target Y Coordinate:");
         targetXInput = new JTextField(1);
         targetYInput = new JTextField(1);
+        coordinateLabel = new JLabel("Coordinate Name:");
+        coordinateNameInput = new JTextField(1);
         calculateButton = new JToggleButton("Calculate", false);
         mathButton = new JToggleButton("View Math", false);
         clearButton = new JToggleButton("Clear Inputs", false);
@@ -78,7 +82,7 @@ public class TelesciCalculator extends JPanel {
         undoButton = new JButton("Undo");
 
         //set components properties
-        titleText.setToolTipText("Created by Yew™ - v0.01 - Thanks Muk!");
+        titleText.setToolTipText("Created by Yewâ„¢ - v0.01 - Thanks Muk!");
         coordinateList.setToolTipText("Every result is recorded here!");
         cpuX1Input.setToolTipText("The X coordinate of the Telescience computer for your first test.");
         cpuX1Label.setToolTipText("The X coordinate of the Telescience computer for your first test.");
@@ -103,6 +107,9 @@ public class TelesciCalculator extends JPanel {
         targetXInput.setToolTipText("The X coordinate of the place you want to target!");
         targetYInput.setEnabled(true);
         targetYInput.setToolTipText("The Y coordinate of the place you want to target!");
+        coordinateLabel.setEnabled(true);
+        coordinateLabel.setToolTipText("The (optional) name of the place you want to target!");
+        coordinateNameInput.setToolTipText("The (optional) name of the place you want to target!");
         calculateButton.setEnabled(true);
         calculateButton.setToolTipText("Hit this once you input everything!");
         mathButton.setEnabled(false);
@@ -113,7 +120,7 @@ public class TelesciCalculator extends JPanel {
         undoButton.setToolTipText("Deletes the last coordinate entry.");
 
         //adjust size and set layout
-        setPreferredSize(new Dimension(507, 327));
+        setPreferredSize(new Dimension(507, 367));
         setLayout(null);
 
         //add components
@@ -140,6 +147,8 @@ public class TelesciCalculator extends JPanel {
         add(targetYLabel);
         add(targetXInput);
         add(targetYInput);
+        add(coordinateLabel);
+        add(coordinateNameInput);
         add(calculateButton);
         add(mathButton);
         add(clearButton);
@@ -170,6 +179,8 @@ public class TelesciCalculator extends JPanel {
         targetYLabel.setBounds(40, 250, 120, 25);
         targetXInput.setBounds(65, 225, 70, 25);
         targetYInput.setBounds(65, 275, 70, 25);
+        coordinateLabel.setBounds(40, 300, 120, 25);
+        coordinateNameInput.setBounds(65, 325, 70, 25);
         calculateButton.setBounds(190, 205, 130, 30);
         mathButton.setBounds(190, 245, 130, 30);
         clearButton.setBounds(190, 285, 130, 30);
@@ -190,6 +201,7 @@ public class TelesciCalculator extends JPanel {
                     gpsY2Input.getText(),
                     targetXInput.getText(),
                     targetYInput.getText(),
+                    coordinateNameInput.getText(),
                     7
                 ).toString());
             }
@@ -228,9 +240,9 @@ public class TelesciCalculator extends JPanel {
                     coordinateListModel.addElement(topString);
                 }
             }
-        });
+        }); 
     }
-    public Object calculateCoords(String cpux1, String cpuy1, String gpsx1, String gpsy1, String cpux2, String cpuy2, String gpsx2, String gpsy2, String targetx, String targety, int returnvalue) {
+    public Object calculateCoords(String cpux1, String cpuy1, String gpsx1, String gpsy1, String cpux2, String cpuy2, String gpsx2, String gpsy2, String targetx, String targety, String name, int returnvalue) {
         double n_cpux1 = Double.valueOf(cpux1);
         double n_cpuy1 = Double.valueOf(cpuy1);
         double n_gpsx1 = Double.valueOf(gpsx1);
@@ -247,7 +259,7 @@ public class TelesciCalculator extends JPanel {
         double Y_Drift = (Y_Multiplier * n_cpuy1) - n_gpsy1;
         double Tele_X = (n_targetx + X_Drift) / X_Multiplier;
         double Tele_Y = (n_targety + Y_Drift) / Y_Multiplier;
-        String Final_Coords = Tele_X + ", " + Tele_Y;
+        String Final_Coords = name + ": " + Tele_X + ", " + Tele_Y;
         switch (returnvalue) {
             case 1:
                 return X_Multiplier;
